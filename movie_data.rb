@@ -15,6 +15,8 @@ class MovieData
         @popularity_list = Hash.new {|movie_id, rating|}
 	end
 
+
+
 	def load_data
 		File.open("u.data", "r").each_line do |line|
         	temp = line.split
