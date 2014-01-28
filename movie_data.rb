@@ -1,32 +1,78 @@
 #movie_data class 
 #Ken Harsch
 #kharsch@brandeis.edu
-require_relative 'movie.rb'
-require_relative 'user.rb'
-require_relative 'rating.rb'
+require_relative "movie.rb"
+require_relative "user.rb"
+require_relative "rating.rb"
+require_relative "movie_db.rb"
 
 class MovieData
-	attr_reader :rating_list, :user_list, :movie_list, :popularity_list, :similarity, :most_similar
 
-	def initialize
-		@rating_list = []
-		@user_list = []
-		@movie_list = []
-        @popularity_list = Hash.new {|movie_id, rating|}
+	def initialize(path, sym)
+        @path = path
+        @sym = sym	
+        @raw = []
 	end
 
-
-
 	def load_data
-		File.open("u.data", "r").each_line do |line|
-        	temp = line.split
-        	@rating_list.push([temp[0].to_i, temp[1].to_i, temp[2].to_i, temp[3].to_i])
-            @user_list.push([temp[0].to_i])  
-            @movie_list.push([temp[1].to_i])  	
+        sym = nil
+        if sym == :u1
+            base = @path + "/u1.base"
+            test = @path + "/u1.test"
+            load_base(base)
+            load_test(test)
+        elsif sym == nil
+            base = @path + "/u.data"
+            load_base(base)
         end
-        user_list.uniq!
-        movie_list.uniq!
     end
+
+    def load_base (base)
+        db_base = MovieDb.new
+        File.open(base).each_line do |line|
+        	temp = line.split
+            u = temp[0].to_i
+            m = temp[1].to_i
+            r = temp[2].to_i
+            t = temp[3].to_i
+            @raw.push(u, m, r, t)
+            db_base.add_user(u)
+            db_base.add_movie(m)
+        end
+    end
+
+    def process_raw(raw)
+        raw.each do |entry|
+            db_base.user(entry[0]).add_movie(entry[1])
+            db_base.movie(entry[1]).add_user_rating(entry[0], entry[2])
+        end
+    end
+
+    def load_test (test)
+        db_test = MovieDb.new
+        File.open(test).each_line do |line|
+            temp = line.split
+            db_base.add_user(temp[0].to_i)
+            db_base.add_movie(temp[1].to_i)
+        end
+    end
+
+    def rating (user_id, movie_id)
+       
+    end
+
+    def predict(user_id, movie_id)
+
+    end
+
+    def viewers(movie_id)
+        
+    end
+
+    def run_test
+
+    end
+
 
     def calc_popularity
         #Popularity is calculated as the sum of the number of times watched

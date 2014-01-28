@@ -2,18 +2,13 @@
 #Ken Harsch
 #kharsch@brandeis.edu
 
-require_relative 'new_movie_data'
+require_relative "movie_data.rb"
+require_relative "movie.rb"
+require_relative "user.rb"
+require_relative "movie_db.rb"
 
-m = MovieData.new
+m = MovieData.new("ml-100k", nil)
 m.load_data
+puts m.rating(54, 357)
+puts m.viewers(357)
 
-
-m.calc_popularity
-puts "pop of 242 = "
-puts m.popularity(242)
-m.top_ten
-m.bottom_ten
-puts "Sim rating between 196 and 54: "
-puts m.similarity(196, 54)
-
-#m.most_similar(55)

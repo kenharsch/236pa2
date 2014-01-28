@@ -4,7 +4,7 @@
 
 class User
 	attr_reader :user_id, :movies
-	def initialize 
+	def initialize (user_id)
 		@user_id = user_id
 		@movies = []
 	end

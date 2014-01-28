@@ -4,6 +4,7 @@
 
 class Movie
 	attr_reader :movie_id, :viewers, :rating, :user_ratings
+
 	def initialize (movie_id)
 		@movie_id = movie_id
 		@user_ratings = Hash.new{|user_id, rating|}
@@ -11,7 +12,7 @@ class Movie
 	end
 
 	def add_user_rating(user_id, rating)
-		@user_ratings{user_id: user_id, rating: rating}
+		@user_ratings[user_id: user_id, rating: rating]
 	end
 
 	def viewers
