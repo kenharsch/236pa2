@@ -3,7 +3,7 @@
 #kharsch@brandeis.edu
 
 class Movie
-	attr_reader :movie_id, :popularity
+	attr_reader :movie_id
 	def initialize (movie_id, popularity)
 		@movie_id = movie_id
 		@popularity = popularity
