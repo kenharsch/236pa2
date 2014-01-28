@@ -6,6 +6,8 @@ require_relative 'new_movie_data'
 
 m = MovieData.new
 m.load_data
+
+
 m.calc_popularity
 puts "pop of 242 = "
 puts m.popularity(242)
