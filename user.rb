@@ -3,9 +3,18 @@
 #kharsch@brandeis.edu
 
 class User
-	attr_reader :user_id
+	attr_reader :user_id, :movies
 	def initialize 
 		@user_id = user_id
-		@fv
+		@movies = []
 	end
+
+	def add_movie (movie_id)
+		@movies.push(movie_id)
+	end
+
+	def movies_seen
+		return movies
+	end
+
 end
