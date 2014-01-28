@@ -9,7 +9,5 @@ class Rating
 		@movie_id = movie_id
 		@rate = rate
 		@timestamp = timestamp
-
-		
 	end
 end

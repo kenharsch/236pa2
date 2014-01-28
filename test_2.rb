@@ -9,6 +9,6 @@ require_relative "movie_db.rb"
 
 m = MovieData.new("ml-100k", nil)
 m.load_data
-puts m.rating(54, 357)
-puts m.viewers(357)
+puts m.rating(196, 242)
+puts m.viewers(242)
 

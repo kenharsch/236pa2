@@ -13,12 +13,12 @@ class MovieDb
 
 	#takes movie_id returns movie object
 	def movie (movie_id)
-		return movie_list[movie_id]
+		return @movie_list[movie_id]
 	end
 
 	#takes user_id returns user object
 	def user (user_id)
-		return user_list[user_id]
+		return @user_list[user_id]
 	end
 
 	def add_user (user_id)
@@ -27,10 +27,8 @@ class MovieDb
 	end
 
 	def add_movie (movie_id)
-		if movie_list.has_key?(movie_id) == false 
 		m = Movie.new(movie_id)
 		@movie_list[movie_id: movie_id, movie: m]
-		end
 	end
 	
 end

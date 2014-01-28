@@ -8,10 +8,13 @@ require_relative "movie_db.rb"
 
 class MovieData
 
+attr_reader :db_base, :db_test, :prediction
+
 	def initialize(path, sym)
         @path = path
         @sym = sym	
         @raw = []
+        @prediction = Hash.new{|user_id, predicted_rating|}
 	end
 
 	def load_data
@@ -41,35 +44,48 @@ class MovieData
         end
     end
 
-    def process_raw(raw)
-        raw.each do |entry|
+def load_test (test)
+        db_test = MovieDb.new
+        File.open(test).each_line do |line|
+            temp = line.split
+            u = temp[0].to_i
+            m = temp[1].to_i
+            r = temp[2].to_i
+            t = temp[3].to_i
+            @raw.push(u, m, r, t)
+            db_base.add_user(u)
+            db_base.add_movie(m)
+        end
+    end
+
+    def process_raw
+        @raw.each do |entry|
             db_base.user(entry[0]).add_movie(entry[1])
             db_base.movie(entry[1]).add_user_rating(entry[0], entry[2])
         end
     end
 
-    def load_test (test)
-        db_test = MovieDb.new
-        File.open(test).each_line do |line|
-            temp = line.split
-            db_base.add_user(temp[0].to_i)
-            db_base.add_movie(temp[1].to_i)
-        end
-    end
-
     def rating (user_id, movie_id)
+       return db_base.movie(movie_id).rating(user_id) || 0
        
     end
 
     def predict(user_id, movie_id)
-
+        predicted_rating = db_base.movie(movie_id).avg_rating
+        return prediction[user_id: user_id, prediction: predicted_rating]
     end
 
     def viewers(movie_id)
-        
+        return db_base.movie(movie_id).viewers
     end
 
     def run_test
+        @db_base.user_list.each do|user|
+            @db_base.movie_list.each do|movie|
+                p = predict(user_id, movie_id)
+                @prediction[user_id: user_id, prediction: p]
+            end
+        end
 
     end
 

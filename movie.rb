@@ -24,4 +24,14 @@ class Movie
 		return user_ratings.fetch(user_id)
 	end
 
+	def avg_rating
+		i = 1
+		rate = 1
+		@user_ratings.each do |rating|
+			i +=1
+			rate += rating.rating
+		end
+		return rate/i
+	end
+
 end
