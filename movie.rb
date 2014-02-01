@@ -7,16 +7,16 @@ class Movie
 
 	def initialize (movie_id)
 		@movie_id = movie_id
-		@user_ratings = Hash.new{|user_id, rating|}
+		@user_ratings = Hash.new
 		@viewers = []
 	end
 
 	def add_user_rating(user_id, rating)
 		@user_ratings[user_id: user_id, rating: rating]
+		@viewers.push(user_id)
 	end
 
 	def viewers
-		user_ratings.each_key {|user_id| @viewers.push(user_id)}
 		return viewers
 	end
 

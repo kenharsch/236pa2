@@ -11,18 +11,23 @@ class MovieData
 attr_reader :db_base, :db_test, :prediction
 
 	def initialize(path, sym)
+        sym = nil
         @path = path
         @sym = sym	
-        @raw = []
-        @prediction = Hash.new{|user_id, predicted_rating|}
+        @prediction = Hash.new
 	end
 
-	def load_data
-        sym = nil
+    #takes path and symbol, returns data loaded into containers
+	def load_data(path, sym)
         if sym == :u1
+            path  = "ml-100k/u1.base"
+            loader = Loader.new(path)
+            loader.load_base(path)
+            loader.load_test
             base = @path + "/u1.base"
             test = @path + "/u1.test"
-            load_base(base)
+            lodd = Loader.new (base)
+            load_base(tbase)
             load_test(test)
         elsif sym == nil
             base = @path + "/u.data"
@@ -44,9 +49,13 @@ attr_reader :db_base, :db_test, :prediction
         end
     end
 
+def load 
+
 def load_test (test)
         db_test = MovieDb.new
+        i = 0
         File.open(test).each_line do |line|
+            i++
             temp = line.split
             u = temp[0].to_i
             m = temp[1].to_i
@@ -56,6 +65,7 @@ def load_test (test)
             db_base.add_user(u)
             db_base.add_movie(m)
         end
+
     end
 
     def process_raw
@@ -66,6 +76,7 @@ def load_test (test)
     end
 
     def rating (user_id, movie_id)
+        mTemp = 
        return db_base.movie(movie_id).rating(user_id) || 0
        
     end

@@ -7,8 +7,8 @@ require_relative "movie_data.rb"
 class MovieDb
 	attr_reader :movie_list, :user_list, :movie, :user
 	def initialize
-		@movie_list = Hash.new{|movie_id, movie|}
-		@user_list = Hash.new{|user_id, user|}
+		@movie_list = Hash.new
+		@user_list = Hash.new
 	end
 
 	#takes movie_id returns movie object
@@ -23,13 +23,19 @@ class MovieDb
 
 	def add_user (user_id)
 		u = User.new(user_id)
-		@user_list[user_id: user_id, user: u]
+		@user_list[user_id: user_id]
 	end
 
 	def add_movie (movie_id)
 		m = Movie.new(movie_id)
-		@movie_list[movie_id: movie_id, movie: m]
+		@movie_list[movie_id: movie_id]
 	end
+
+	def add_rating(user_id, movie_id, rating, timestamp)
+		r = rating.new(user_id, movie_id, rating, timestamp)
+		@rating_list[user_id: user_id, movie_id: movie_id, rating: rating, timestamp: timestamp]
+	end
+
 	
 end
 
