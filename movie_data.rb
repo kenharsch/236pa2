@@ -4,7 +4,7 @@
 require_relative "movie.rb"
 require_relative "user.rb"
 require_relative "rating.rb"
-require_relative "movie_db.rb"
+require_relative "loader.rb"
 
 class MovieData
 
@@ -20,58 +20,13 @@ attr_reader :db_base, :db_test, :prediction
     #takes path and symbol, returns data loaded into containers
 	def load_data(path, sym)
         if sym == :u1
-            path  = "ml-100k/u1.base"
-            loader = Loader.new(path)
-            loader.load_base(path)
-            loader.load_test
-            base = @path + "/u1.base"
-            test = @path + "/u1.test"
-            lodd = Loader.new (base)
-            load_base(tbase)
-            load_test(test)
+            b = Loader.new(path)
+            t = Loader.new(path)
+            b.load(@path + "/u1.base")
+            r.load(@path + "/u1.test")
         elsif sym == nil
-            base = @path + "/u.data"
-            load_base(base)
-        end
-    end
-
-    def load_base (base)
-        db_base = MovieDb.new
-        File.open(base).each_line do |line|
-        	temp = line.split
-            u = temp[0].to_i
-            m = temp[1].to_i
-            r = temp[2].to_i
-            t = temp[3].to_i
-            @raw.push(u, m, r, t)
-            db_base.add_user(u)
-            db_base.add_movie(m)
-        end
-    end
-
-def load 
-
-def load_test (test)
-        db_test = MovieDb.new
-        i = 0
-        File.open(test).each_line do |line|
-            i++
-            temp = line.split
-            u = temp[0].to_i
-            m = temp[1].to_i
-            r = temp[2].to_i
-            t = temp[3].to_i
-            @raw.push(u, m, r, t)
-            db_base.add_user(u)
-            db_base.add_movie(m)
-        end
-
-    end
-
-    def process_raw
-        @raw.each do |entry|
-            db_base.user(entry[0]).add_movie(entry[1])
-            db_base.movie(entry[1]).add_user_rating(entry[0], entry[2])
+            data = Loader.new(path)
+            data.load(@path + "/u.data")
         end
     end
 

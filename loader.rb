@@ -1,36 +1,58 @@
 #loader classes for movie_data
 #Ken Harsch
 #kharsch@brandeis.edu
+#passed unit test
+
+require_relative "user.rb"
+require_relative "movie.rb"
+require_relative "rating.rb"
 
 class Loader
-	attr_reader :ratings_list, :movies, :users
+    
+    attr_accessor :movie_list, :user_list, :rating_list
 
-	def intitialize 
-		@path = path
-		@ratings_list = 
-		@users = []
-		@movies = []
+    def load(path)
+        rating_list = []
+        file = File.open(path, "r")
+        file.each_line do |line|
+            rating_list << line.split.map(&:to_i)
+        end
+        return rating_list 
+    end
 
-	def load(path)
- 		File.open(base).each_line do |line|
-        	temp = line.split
-        	if users.include?(temp[0].to_i) == false
-        		users<<
+    def process_users(rating_list)
+        user_list = {}
+        rating_list.each do |entry|
+            u = entry[0]
+            m = entry[1]
+            r = entry[2]
+            if user_list[u]
+                user_list[u][m] = r 
+            else
+                user_list[u] = {m => r}
+                end    
+        end
+        return user_list
+    end
 
-
-            u = User.new(temp[0].to_i)
-            m = Movie.new(temp[1].to_i)
-            r = Rating.new(u, m, temp[2].to_i, temp[3].to_i)
-            u.add_movie(m)
-            m.add_user_rating(u, temp[2].to_i)
-			ratings_list.push(r)
-			users.push(u)
-			movies.push(m)
-        end      
-	end
+    def process_movies(rating_list)
+        movie_list = {}
+        rating_list.each do |entry|
+            u = entry[0]
+            m = entry[1]
+            r = entry[2]
+            if movie_list[m]
+                movie_list[m][u] = r
+            else
+                movie_list[m] = {u => r}
+            end
+        end
+        return movie_list
+    end
 end
 
-l = Loader.new(ml-100k/u.data)
+
+
 
 
 		

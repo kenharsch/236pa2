@@ -4,7 +4,7 @@
 #passed unit test
 
 class Rating
-	attr_reader :user_id, :movie_id, :rate, :timestamp
+	attr_accessor :user_id, :movie_id, :rate, :timestamp
 	def initialize (user_id, movie_id, rate, timestamp)
 		@user_id = user_id
 		@movie_id = movie_id

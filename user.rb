@@ -4,7 +4,7 @@
 #passed unit test
 
 class User
-	attr_reader :user_id, :movies
+	attr_accessor :user_id, :movies
 	def initialize (user_id)
 		@user_id = user_id
 		@movies = []
@@ -16,6 +16,10 @@ class User
 
 	def movies_seen
 		return movies
+	end
+
+	def id
+		return user_id
 	end
 
 end
