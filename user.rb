@@ -1,6 +1,7 @@
 #User class for movie_data
 #Ken Harsch
 #kharsch@brandeis.edu
+#passed unit test
 
 class User
 	attr_reader :user_id, :movies

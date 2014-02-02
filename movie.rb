@@ -1,6 +1,7 @@
 #Movie class for movie_data
 #Ken Harsch
 #kharsch@brandeis.edu
+#passed unit test
 
 class Movie
 	attr_reader :movie_id, :viewers, :rating, :user_ratings
@@ -12,26 +13,22 @@ class Movie
 	end
 
 	def add_user_rating(user_id, rating)
-		@user_ratings[user_id: user_id, rating: rating]
+		@user_ratings[user_id] = rating
 		@viewers.push(user_id)
 	end
 
 	def viewers
-		return viewers
+		return @viewers
 	end
 
 	def rating(user_id)
-		return user_ratings.fetch(user_id)
+		return @user_ratings[user_id]
 	end
 
 	def avg_rating
-		i = 1
-		rate = 1
-		@user_ratings.each do |rating|
-			i +=1
-			rate += rating.rating
-		end
-		return rate/i
+		i = user_ratings.length
+		rate = 0
+		@user_ratings.each_value{|value| rate = rate + value}
+		return Float(rate)/i
 	end
-
 end
