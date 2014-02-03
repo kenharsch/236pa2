@@ -5,6 +5,7 @@ require_relative "movie.rb"
 require_relative "user.rb"
 require_relative "rating.rb"
 require_relative "loader.rb"
+require_relative "movie_test.rb"
 
 class MovieData
 
@@ -16,6 +17,9 @@ class MovieData
         @ratings = l.load(path, sym)
         @user_list = l.process_users(@ratings)
         @movie_list = l.process_movies(@ratings)
+        @test_ratings = l.load_test_data
+        @test_users = l.process_users(@test_ratings)
+        @test_movies = l.process_movies(@test_ratings)
         @prediction = Hash.new
 	end
 
@@ -31,6 +35,14 @@ class MovieData
         return viewers
     end
 
+    def movies(user_id)
+        movies = []
+        @user_list[user_id].each_pair do |movie_id, rating|
+            movies<<movie_id
+        end
+        return movies
+    end
+
     def avg_rating(movie_id)
         i = viewers(movie_id).length
         rate = 0
@@ -38,15 +50,18 @@ class MovieData
         return Float(rate)/i
     end
 
-
     def predict(user_id, movie_id)
-        predicted_rating = db_base.movie(movie_id).avg_rating
-        return prediction[user_id: user_id, prediction: predicted_rating]
+        return avg_rating(movie_id)
     end
 
-
     def run_test
-        
+       @test_ratings.each do |row|
+        row[3] = predict(row[0], row[1])
+        end
+        movie_test = MovieTest.new(@test_ratings)
+        p movie_test.mean
+        p movie_test.std_dev
+        p movie_test.rms
     end
     
 end

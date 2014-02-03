@@ -24,17 +24,18 @@ class Loader
             file.each_line do |line|
                 rating_list << line.split.map(&:to_i)
             end
+            test_rating_list = []
+            file_t = File.open(path + "/u1.test", "r")
+            file_t.each_line do |line|
+            test_rating_list << line.split.map(&:to_i)
+            end
         end
-        return rating_list 
+        return rating_list  
     end
 
-    def load_test_data(path)
+    def load_test_data
         test_rating_list = []
-        file = File.open(path + "/u1.test", "r")
-        file.each_line do |line|
-            test_rating_list << line.split.map(&:to_i)
-        end
-        return test_rating_list
+        
     end
 
 

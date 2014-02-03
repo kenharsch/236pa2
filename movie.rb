@@ -4,7 +4,7 @@
 #passed unit test
 
 class Movie
-	attr_reader :movie_id, :viewers, :rating, :user_ratings
+	attr_accessor :movie_id, :viewers, :rating, :user_ratings
 
 	def initialize (movie_id)
 		@movie_id = movie_id
@@ -31,4 +31,6 @@ class Movie
 		@user_ratings.each_value{|value| rate = rate + value}
 		return Float(rate)/i
 	end
+
+	
 end
