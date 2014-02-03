@@ -11,14 +11,32 @@ class Loader
     
     attr_accessor :movie_list, :user_list, :rating_list
 
-    def load(path)
-        rating_list = []
-        file = File.open(path, "r")
-        file.each_line do |line|
-            rating_list << line.split.map(&:to_i)
+    def load(path, sym)
+        if sym == nil
+            rating_list = []
+            file = File.open(path + "/u.data", "r")
+            file.each_line do |line|
+                rating_list << line.split.map(&:to_i)
+            end
+        else
+            rating_list = []
+            file = File.open(path + "/u1.base", "r")
+            file.each_line do |line|
+                rating_list << line.split.map(&:to_i)
+            end
         end
         return rating_list 
     end
+
+    def load_test_data(path)
+        test_rating_list = []
+        file = File.open(path + "/u1.test", "r")
+        file.each_line do |line|
+            test_rating_list << line.split.map(&:to_i)
+        end
+        return test_rating_list
+    end
+
 
     def process_users(rating_list)
         user_list = {}
@@ -50,11 +68,3 @@ class Loader
         return movie_list
     end
 end
-
-
-
-
-
-		
-
-
