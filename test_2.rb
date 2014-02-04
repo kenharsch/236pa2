@@ -17,9 +17,12 @@ puts "Movies viewed by 196: "
 p m.movies(196)
 puts "Average rating of movie 242:"
 p m.avg_rating(242)
+a = Time.now
 puts "Predicted rating of movie 242 by user 196: "
 p m.predict(196, 242)
-
+b = Time.now
+puts "The time for 1 prediction is: "
+puts b - a
 
 test = m.run_test(100)
 mt = MovieTest.new(test)
