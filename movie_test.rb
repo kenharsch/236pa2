@@ -10,23 +10,25 @@ class MovieTest
 
 	def initialize(test_ratings)
 		@data = test_ratings
-		@mean = mean
-		@std_dev = std_dev
-		@rms = rms
-        @i = test_ratings.length
+		@mean = get_mean
+		@std_dev = get_std_dev
+		@rms = get_rms
     end
 
-    def mean
-    	i = @data.length
+    def get_mean
         m = 0
+        i = @data.length
     	@data.each do |row|
-    		m += (row[3] - row[2]).abs
+    		m += (row[3].to_f - row[2].to_f).abs
     	end
+        if m == nil || i == nil
+            return 0
+        end
     	return Float(m)/i
     end
 
-    def std_dev
-    	m = mean
+    def get_std_dev
+    	m = @mean
         var = 0
     	i = @data.length
     	@data.each do |row|
@@ -34,17 +36,36 @@ class MovieTest
     		var = var*var
     		var += var
     	end
+        if i == nil
+            retrun 0
+        end
     	var = Float(var)/i
     	return Math.sqrt(var)
     end
 
-    #def rms
-    #	k = 1 
-    #	@data.each do |row|
-    #		k += (row[2] - row[3])**2
-    #	end
-    #	return Math.sqrt(k/@i)
-    #end
+    def get_rms
+    	k = 1 
+        i = @data.length
+    	@data.each do |row|
+    		k += (row[2] - row[3])**2
+    	end
+        if i == nil
+            return 0
+        end
+    	return Math.sqrt(k/i)
+    end
+
+    def mean
+        return get_mean
+    end
+
+    def std_dev
+        return get_std_dev
+    end
+
+    def rms
+        return get_rms
+    end
 
     def to_a
     	return @data

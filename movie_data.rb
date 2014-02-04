@@ -10,17 +10,13 @@ require_relative "movie_test.rb"
 class MovieData
 
 	def initialize(path, sym)
-        sym = nil
+        @sym = sym
         @path = path
         @sym = sym	
         l = Loader.new
         @ratings = l.load(path, sym)
         @user_list = l.process_users(@ratings)
         @movie_list = l.process_movies(@ratings)
-        @test_ratings = l.load_test_data
-        @test_users = l.process_users(@test_ratings)
-        @test_movies = l.process_movies(@test_ratings)
-        @prediction = Hash.new
 	end
 
     def rating (user_id, movie_id)
@@ -29,39 +25,62 @@ class MovieData
 
     def viewers(movie_id)
         viewers = []
-        @movie_list[movie_id].each_pair do |user_id, rating|
+        if @movie_list[movie_id]
+            @movie_list[movie_id].each_pair do |user_id, rating|
             viewers<<user_id
+            end
         end
         return viewers
     end
 
     def movies(user_id)
         movies = []
-        @user_list[user_id].each_pair do |movie_id, rating|
-            movies<<movie_id
+        if @user_list[user_id]
+            @user_list[user_id].each_pair do |movie_id, rating|
+                movies<<movie_id
+            end
         end
         return movies
     end
 
     def avg_rating(movie_id)
         i = viewers(movie_id).length
+        if i = 0
+            return 0
+        end
         rate = 0
         @movie_list[movie_id].each_value{|value| rate = rate + value}
         return Float(rate)/i
     end
 
     def predict(user_id, movie_id)
-        return avg_rating(movie_id)
+        user_avg_rate = 0
+        j = 0
+        temp = 0
+        @user_list[user_id].each_pair do |movie_id, rating|
+            j += 1
+            temp = temp += rating
+        end
+        user_avg_rate = Float(temp)/j
+        if user_avg_rate > 4
+            return avg_rating(movie_id) + 1
+        elsif user_avg_rate < 2
+            return avg_rating(movie_id) - 1
+        else 
+            return avg_rating(movie_id)
+        end
     end
 
-    def run_test
-       @test_ratings.each do |row|
+    def run_test(k)
+      l = Loader.new
+      test_list = l.load_test_data
+      test_list = test_list.first(k)
+      test_m_list = l.process_movies(test_list)
+      test_u_list = l.process_users(test_list)
+      test_list.each do |row|
         row[3] = predict(row[0], row[1])
         end
-        movie_test = MovieTest.new(@test_ratings)
-        p movie_test.mean
-        p movie_test.std_dev
-        p movie_test.rms
+    return test_list
     end
     
 end

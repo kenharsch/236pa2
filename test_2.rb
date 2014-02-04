@@ -14,6 +14,10 @@ p m.viewers(242)
 p m.movies(196)
 p m.avg_rating(242)
 
-m.run_test
+test = m.run_test(100)
+mt = MovieTest.new(test)
+p mt.mean
+p mt.std_dev
+p mt.rms
 
 

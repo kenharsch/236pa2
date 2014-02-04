@@ -9,33 +9,29 @@ require_relative "rating.rb"
 
 class Loader
     
-    attr_accessor :movie_list, :user_list, :rating_list
+    attr_accessor :movie_list, :user_list, :rating_list, :test_rating_list
 
     def load(path, sym)
         if sym == nil
             rating_list = []
             file = File.open(path + "/u.data", "r")
-            file.each_line do |line|
-                rating_list << line.split.map(&:to_i)
-            end
         else
             rating_list = []
             file = File.open(path + "/u1.base", "r")
-            file.each_line do |line|
+        end
+         file.each_line do |line|
                 rating_list << line.split.map(&:to_i)
             end
-            test_rating_list = []
-            file_t = File.open(path + "/u1.test", "r")
-            file_t.each_line do |line|
-            test_rating_list << line.split.map(&:to_i)
-            end
-        end
         return rating_list  
     end
 
     def load_test_data
         test_rating_list = []
-        
+        file = File.open("ml-100k/u1.test", "r")
+        file.each_line do |line|
+            test_rating_list << line.split.map(&:to_i)
+        end
+        return test_rating_list         
     end
 
 
@@ -68,4 +64,5 @@ class Loader
         end
         return movie_list
     end
+
 end
