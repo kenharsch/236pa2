@@ -44,12 +44,12 @@ class MovieData
     end
 
     def avg_rating(movie_id)
-        i = viewers(movie_id).length
-        if i = 0
-            return 0
-        end
         rate = 0
-        @movie_list[movie_id].each_value{|value| rate = rate + value}
+        i = 0
+        @movie_list[movie_id].each_pair do |user_id, rating|
+            rate += rating
+            i += 1
+        end
         return Float(rate)/i
     end
 
@@ -59,16 +59,19 @@ class MovieData
         temp = 0
         @user_list[user_id].each_pair do |movie_id, rating|
             j += 1
-            temp = temp += rating
+            temp += rating
         end
         user_avg_rate = Float(temp)/j
+        return user_avg_rate
+=begin
         if user_avg_rate > 4
-            return avg_rating(movie_id) + 1
+            return 3 + 1
         elsif user_avg_rate < 2
-            return avg_rating(movie_id) - 1
+            return 3 - 1
         else 
-            return avg_rating(movie_id)
+            return 3
         end
+=end
     end
 
     def run_test(k)

@@ -37,10 +37,10 @@ class Loader
 
     def process_users(rating_list)
         user_list = {}
-        rating_list.each do |entry|
-            u = entry[0]
-            m = entry[1]
-            r = entry[2]
+        rating_list.each do |row|
+            u = row[0]
+            m = row[1]
+            r = row[2]
             if user_list[u]
                 user_list[u][m] = r 
             else
@@ -52,10 +52,10 @@ class Loader
 
     def process_movies(rating_list)
         movie_list = {}
-        rating_list.each do |entry|
-            u = entry[0]
-            m = entry[1]
-            r = entry[2]
+        rating_list.each do |row|
+            u = row[0]
+            m = row[1]
+            r = row[2]
             if movie_list[m]
                 movie_list[m][u] = r
             else

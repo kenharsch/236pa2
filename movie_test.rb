@@ -17,12 +17,10 @@ class MovieTest
 
     def get_mean
         m = 0
-        i = @data.length
+        i = 0
     	@data.each do |row|
     		m += (row[3].to_f - row[2].to_f).abs
-    	end
-        if m == nil || i == nil
-            return 0
+            i += 1
         end
     	return Float(m)/i
     end
@@ -37,17 +35,18 @@ class MovieTest
     		var += var
     	end
         if i == nil
-            retrun 0
+            return 0
         end
     	var = Float(var)/i
     	return Math.sqrt(var)
     end
 
     def get_rms
-    	k = 1 
+    	k = 0 
         i = @data.length
+        m = get_mean
     	@data.each do |row|
-    		k += (row[2] - row[3])**2
+    		k += (m - (row[2] - row[3]))**2
     	end
         if i == nil
             return 0
